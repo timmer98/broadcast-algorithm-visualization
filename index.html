@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Canvas tutorial</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <label>
+        p = 
+        <input type="number" step="1" style="width: 8ch;" min="4" class="number_of_processors" name="number_of_processors">
+      </label>
+    </header>
+
+    <canvas id="tutorial" width="1200" height="500"></canvas>
+    
+    <script src="messages_controller.js"></script>
+    <script src="processor.js"></script>
+    <script src="message.js"></script>
+    <script src="visualizer.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
