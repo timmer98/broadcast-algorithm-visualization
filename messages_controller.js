@@ -9,7 +9,7 @@ class MessagesController {
         self.currentStep = initialStep;
         self.processors = processors;
         self.messages = [];
-        self.messages.push(new Message(1, processors[0], processors[0]));
+        self.messages.push(new Message("M", processors[0], processors[0]));
 
     }
 
@@ -24,7 +24,7 @@ class MessagesController {
             let message = self.messages[i];
             let receiverProcessorIndex = message.endProcessor.id + self.currentStep;
             if (receiverProcessorIndex < processors.length) {
-                self.messages.push(new Message(1, message.endProcessor, self.processors[receiverProcessorIndex]));
+                self.messages.push(new Message("M", message.endProcessor, self.processors[receiverProcessorIndex]));
             }
         }
 
