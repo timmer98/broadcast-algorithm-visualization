@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <title>Binomial Tree Broadcast</title>
-    <style>
-      canvas {
-        border: 1px solid black;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
 
     <header>
       <label>
         p = 
-        <input type="number" step="1" style="width: 8ch; margin-bottom: 8px;" min="4" class="number_of_processors" name="number_of_processors">
+        <input type="number" step="1" style="width: 8ch;" min="4" class="number_of_processors" name="number_of_processors">
+      </label>
+      <label>
+        <input type="checkbox" id="pipelined" name="pipelined" unchecked/>
+      Pipelined 
       </label>
     </header>
 

@@ -1,6 +1,7 @@
 const PROCESSOR_RECT_WIDTH = 60;
 const PROCESSOR_RECT_HEIGHT = 60;
 const PROCESSOR_RECT_Y_POS = 50;
+const PIPELINED_MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 5;
 const MESSAGE_Y_POS = PROCESSOR_RECT_Y_POS + PROCESSOR_RECT_HEIGHT + 20;
 const MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 2;
 const MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 2000;
@@ -60,7 +61,7 @@ function init() {
     startTime = Date.now();
 
     controller = new MessagesController(processors);
-    intervalCallbackId = setInterval(controller.iterate, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
+    intervalCallbackId = setInterval(() => {controller.iterate();}, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
 
-    window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(() => {draw();});
 }

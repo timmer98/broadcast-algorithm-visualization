@@ -1,0 +1,11 @@
+canvas {
+    border: 1px solid black;
+  }
+
+label {
+    margin: 16px;
+}
+
+header {
+    margin-bottom: 8px;
+}
