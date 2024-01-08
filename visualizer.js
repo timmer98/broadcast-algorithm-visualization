@@ -10,6 +10,7 @@ var lastTime = Date.now();
 var controller;
 var processors = [];
 var intervalCallbackId;
+var animationFrameRequestId;
 
 function buildProcessors() {
     for (let i = 0; i < PROCESSOR_COUNT; i++) {
@@ -44,13 +45,14 @@ function draw() {
         timestamp = Date.now() - lastTime;
         lastTime = Date.now();
         
-        if (PROCESSOR_COUNT == processors.length) {
-            window.requestAnimationFrame(draw);
-        } else {
-            clearInterval(intervalCallbackId);
-            init();
-        }
+        animationFrameRequestId = window.requestAnimationFrame(draw);
     }
+}
+
+function restart() {
+    cancelAnimationFrame(animationFrameRequestId);
+    clearInterval(intervalCallbackId);
+    init();
 }
 
 function init() {
