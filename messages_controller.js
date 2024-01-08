@@ -4,7 +4,7 @@ class MessagesController {
         this.currentStep = this.initialStep;
         this.processors = processors;
         this.messageCopies = [];
-        this.messageCopies.push(new Message(1, processors[0], processors[0]));
+        this.messageCopies.push(new Message(0, processors[0], processors[0]));
 
     }
 

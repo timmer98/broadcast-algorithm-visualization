@@ -10,7 +10,7 @@ class Processor {
 
     receiveMessage(message) {
         if (!this.messages.includes(message)) {
-            this.messages.push(message);
+            this.messages.unshift(message);
         }
 
         if (this.messages.length > 5) {
@@ -22,22 +22,25 @@ class Processor {
         context.fillStyle = "black";
         context.strokeRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
 
-        context.fillStyle = "black";
-        context.fillText(this.id, this.xPos + (PROCESSOR_RECT_WIDTH / 2), PROCESSOR_RECT_Y_POS + (PROCESSOR_RECT_HEIGHT / 2));
-        
         if (this.id == 0) {
             context.fillStyle = "grey";
             context.fillRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
             return;
         }
-
+        
         if (PIPELINED) {
             for (let i = 0; i < this.messages.length; i++) {
                 let yPos = PROCESSOR_RECT_Y_POS + PIPELINED_MESSAGE_HEIGHT * i;
-    
-                context.fillStyle = COLORS[i];
+                
+                let message = this.messages[i];
+
+                context.fillStyle = COLORS[message.label % COLORS.length];
                 context.fillRect(this.xPos, yPos, PROCESSOR_RECT_WIDTH, PIPELINED_MESSAGE_HEIGHT);
             }
         }
+
+        // Write processor id
+        context.fillStyle = "black";
+        context.fillText(this.id, this.xPos + (PROCESSOR_RECT_WIDTH / 2), PROCESSOR_RECT_Y_POS + (PROCESSOR_RECT_HEIGHT / 2));
     }
 }
