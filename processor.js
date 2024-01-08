@@ -21,14 +21,15 @@ class Processor {
     draw(context) {
         context.fillStyle = "black";
         context.strokeRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
+
+        context.fillStyle = "black";
+        context.fillText(this.id, this.xPos + (PROCESSOR_RECT_WIDTH / 2), PROCESSOR_RECT_Y_POS + (PROCESSOR_RECT_HEIGHT / 2));
         
         if (this.id == 0) {
             context.fillStyle = "grey";
             context.fillRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
+            return;
         }
-
-        context.fillStyle = "black";
-        context.fillText(this.id, this.xPos + (PROCESSOR_RECT_WIDTH / 2), PROCESSOR_RECT_Y_POS + (PROCESSOR_RECT_HEIGHT / 2));
 
         if (PIPELINED) {
             for (let i = 0; i < this.messages.length; i++) {

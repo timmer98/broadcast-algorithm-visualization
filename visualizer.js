@@ -26,8 +26,8 @@ function drawPEs(processors, context) {
 }
 
 function animateMessage(context) {
-    for (let i = 0; i < controller.messages.length; i++) {
-        controller.messages[i].draw(context, timestamp);
+    for (let i = 0; i < controller.messageCopies.length; i++) {
+        controller.messageCopies[i].draw(context, timestamp);
     }
 }
 
@@ -63,7 +63,12 @@ function init() {
     startTime = Date.now();
 
     controller = new MessagesController(processors);
-    intervalCallbackId = setInterval(() => {controller.iterate();}, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
+    intervalCallbackId = setInterval(() => {
+        let iterationResult = controller.iterate();
+        if (iterationResult) {
+            controller.newMessageIteration();
+        }
+    }, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
 
     window.requestAnimationFrame(() => {draw();});
 }

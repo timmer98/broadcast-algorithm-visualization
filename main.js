@@ -12,7 +12,7 @@ numberOfProcessorsElement.addEventListener("change", (event) => {
 });
 
 pipelinedCheckbox.addEventListener("change", (event) => {
-    PIPELINED = true;
+    PIPELINED = event.target.checked;
     restart();
 });
 
