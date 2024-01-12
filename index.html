@@ -21,6 +21,11 @@
         <input type="range" id="animationTime" name="animationTime" min="100" max="5000" value="200" step="10" />
       </label>
     </header>
+    
+		<div class="buttongroup">
+			<input type="radio" name="animationControl" v-model="run" value="play" id="play"><label for="play">⏵</label>
+			<input type="radio" name="animationControl" v-model="run" value="pause" id="pause"><label for="pause">⏸</label>
+		</div>
 
     <canvas id="tutorial" width="1200" height="500"></canvas>
     

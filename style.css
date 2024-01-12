@@ -9,3 +9,26 @@ label {
 header {
     margin-bottom: 8px;
 }
+
+.buttongroup {
+    display: flex;
+    background: silver;
+}
+.buttongroup input[type=radio] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.buttongroup label {
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 1.5em;
+    text-align: center;
+}
+.buttongroup input[type=radio]:checked + label {
+    background: gray;
+}
+.buttongroup input[type=radio]:focus-visible + label {
+    outline: 2px auto black;
+    outline: auto -webkit-focus-ring-color;
+}

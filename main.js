@@ -6,6 +6,8 @@ var MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 800;
 const numberOfProcessorsElement = document.querySelector(".number_of_processors");
 const pipelinedCheckbox = document.getElementById("pipelined");
 const animationTimeSlider = document.getElementById("animationTime");
+const playButton =  document.getElementById("play");
+const pauseButton = document.getElementById("pause");
 
 pipelinedCheckbox.checked = PIPELINED;
 animationTimeSlider.value = MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS;
@@ -23,6 +25,14 @@ pipelinedCheckbox.addEventListener("change", (event) => {
 animationTimeSlider.addEventListener("change", (event) => {
     MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = event.target.value;
     restart();
+});
+
+playButton.addEventListener("click", (event) => {
+    startAnimation();
+});
+
+pauseButton.addEventListener("click", (event) => {
+    pauseAnimation();
 });
 
 init();

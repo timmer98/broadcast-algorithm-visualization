@@ -10,6 +10,7 @@ var controller;
 var processors = [];
 var intervalCallbackId;
 var animationFrameRequestId;
+var RUNNING;
 
 function buildProcessors() {
     for (let i = 0; i < PROCESSOR_COUNT; i++) {
@@ -28,6 +29,10 @@ function animateMessage(context) {
     for (let i = 0; i < controller.messageCopies.length; i++) {
         controller.messageCopies[i].draw(context, timestamp);
     }
+}
+
+function drawTree(context) {
+    let levels = Math.log2(PROCESSOR_COUNT);
 }
 
 function draw() {
@@ -49,9 +54,31 @@ function draw() {
 }
 
 function restart() {
+    pauseAnimation();
+    init();
+}
+
+function pauseAnimation() {
     cancelAnimationFrame(animationFrameRequestId);
     clearInterval(intervalCallbackId);
-    init();
+    RUNNING = false;
+}
+
+function startAnimation() {
+    if (RUNNING) {
+        return;
+    }
+    
+    intervalCallbackId = setInterval(() => {
+        let iterationResult = controller.iterate();
+        if (iterationResult) {
+            controller.newMessageIteration();
+        }
+    }, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
+
+    RUNNING = true;
+
+    animationFrameRequestId = window.requestAnimationFrame(() => {draw();});
 }
 
 function init() {
@@ -62,12 +89,5 @@ function init() {
     startTime = Date.now();
 
     controller = new MessagesController(processors);
-    intervalCallbackId = setInterval(() => {
-        let iterationResult = controller.iterate();
-        if (iterationResult) {
-            controller.newMessageIteration();
-        }
-    }, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
-
-    window.requestAnimationFrame(() => {draw();});
+    startAnimation();
 }
