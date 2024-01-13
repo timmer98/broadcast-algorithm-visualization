@@ -13,7 +13,7 @@ pipelinedCheckbox.checked = PIPELINED;
 animationTimeSlider.value = MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS;
 
 numberOfProcessorsElement.addEventListener("change", (event) => {
-    PROCESSOR_COUNT = event.target.value;
+    PROCESSOR_COUNT = parseInt(event.target.value, 10);
     restart();
 });
 
