@@ -5,6 +5,7 @@ const ROOT_NODE_X = 10 + PROCESSOR_RECT_WIDTH / 2;
 const PIPELINED_MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 5;
 const MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 2;
 const NODE_RADIUS = 5;
+const LEVEL_HEIGHT = PROCESSOR_RECT_HEIGHT;
 var PROCESSOR_RECT_Y_POS;
 var MESSAGE_Y_POS;
 
@@ -35,25 +36,23 @@ function animateMessage(context) {
     }
 }
 
-function calculateTree() {
-    let levelHeight = PROCESSOR_RECT_HEIGHT;
-    
-    let levels = Math.log2(PROCESSOR_COUNT);
+function calculateTree() {    
+    let levels = Math.ceil(Math.log2(PROCESSOR_COUNT));
 
-    PROCESSOR_RECT_Y_POS = INITIAL_PROCESSOR_Y_POS + levels * levelHeight;
+    PROCESSOR_RECT_Y_POS = INITIAL_PROCESSOR_Y_POS + levels * LEVEL_HEIGHT;
     MESSAGE_Y_POS = PROCESSOR_RECT_Y_POS + PROCESSOR_RECT_HEIGHT + 20;
 }
 
 function drawTree(context) {
-    let levelHeight = PROCESSOR_RECT_HEIGHT;
+    let initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT)));
     
-    let nodeY = levelHeight - PIPELINED_MESSAGE_HEIGHT + 1;
+    let nodeY = LEVEL_HEIGHT - PIPELINED_MESSAGE_HEIGHT + 1;
 
     // Root node
     context.fillStyle = "grey";
 
     // Loop for levels
-    for (let distance = PROCESSOR_COUNT; distance > 1; distance = distance / 2) {
+    for (let distance = initialStep; distance > 1; distance = distance / 2) {
 
         // Loop for nodes
         for (let i = 0; i < PROCESSOR_COUNT; i += distance) {
@@ -62,13 +61,15 @@ function drawTree(context) {
             // Edges of tree
             context.beginPath();
             context.moveTo(nodeX, nodeY);
-            context.lineTo(nodeX, nodeY + levelHeight);
+            context.lineTo(nodeX, nodeY + LEVEL_HEIGHT);
             context.stroke();
 
-            context.beginPath();
-            context.moveTo(nodeX, nodeY);
-            context.lineTo(nodeX + distance / 2 * (PROCESSOR_RECT_WIDTH + 10), nodeY + levelHeight)
-            context.stroke();
+            if (i + distance / 2 < PROCESSOR_COUNT) {
+                context.beginPath();
+                context.moveTo(nodeX, nodeY);
+                context.lineTo(nodeX + distance / 2 * (PROCESSOR_RECT_WIDTH + 10), nodeY + LEVEL_HEIGHT)
+                context.stroke();    
+            }
 
             // Circles of the tree nodes
             context.beginPath();
@@ -76,7 +77,7 @@ function drawTree(context) {
             context.fill();
         }
 
-        nodeY += levelHeight;
+        nodeY += LEVEL_HEIGHT;
     }
 }
 
