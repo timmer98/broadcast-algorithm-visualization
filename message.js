@@ -1,10 +1,11 @@
 class Message {
-    constructor(label, startProcessor, endProcessor) {
+    constructor(label, startProcessor, endProcessor, treeNodeYPosition) {
         this.label = label;
         this.startProcessor = startProcessor;
         this.endProcessor = endProcessor;
         this.xPos = startProcessor.xPos;
         this.positionDifference = endProcessor.xPos - startProcessor.xPos;
+        this.treeNodeYPosition = treeNodeYPosition;
         this.done = false;
     }
 
