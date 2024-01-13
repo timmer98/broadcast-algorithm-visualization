@@ -1,16 +1,16 @@
 class Message {
-    constructor(label, startProcessor, endProcessor, treeNodeYPosition) {
+    constructor(label, startProcessor, endProcessor, color) {
         this.label = label;
         this.startProcessor = startProcessor;
         this.endProcessor = endProcessor;
         this.xPos = startProcessor.xPos;
         this.positionDifference = endProcessor.xPos - startProcessor.xPos;
-        this.treeNodeYPosition = treeNodeYPosition;
+        this.color = color;
         this.done = false;
     }
 
     draw(context, timestep) {
-        context.fillStyle = "black";
+        context.fillStyle = this.color;
         context.fillRect(this.xPos, MESSAGE_Y_POS, PROCESSOR_RECT_WIDTH, MESSAGE_HEIGHT);
         context.fillStyle = "white";
         context.fillText(this.label, this.xPos + (PROCESSOR_RECT_WIDTH / 2), MESSAGE_Y_POS + (MESSAGE_HEIGHT / 2));
