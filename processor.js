@@ -1,4 +1,4 @@
-const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue"];
+const COLORS = ["#0000FF", "#40E0D0", "#008000", "#ADFF2F", "#FFFF00", "#FFA500"];
 
 class Processor {
     constructor(id, xPos) {
