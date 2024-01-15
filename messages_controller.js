@@ -18,12 +18,12 @@ class MessagesController {
     iterate() {
         var messagesCount = this.messageCopies.length;
 
-        if (this.currentStep < 1) {
-            for (let i = 0; i < messagesCount; i++) {
-                let message = this.messageCopies[i];
-                this.processors[message.endProcessor.id].receiveMessage(message);
-            }
+        for (let i = 0; i < messagesCount; i++) {
+            let message = this.messageCopies[i];
+            this.processors[message.endProcessor.id].receiveMessage(message);
+        }
 
+        if (this.currentStep < 1) {
             return true;
         }
     
@@ -31,7 +31,6 @@ class MessagesController {
             let message = this.messageCopies[i];
             let receiverProcessorIndex = message.endProcessor.id + this.currentStep;
             if (receiverProcessorIndex < processors.length) {
-                this.processors[message.endProcessor.id].receiveMessage(message);
                 this.messageCopies.push(new Message(message.label, message.endProcessor, this.processors[receiverProcessorIndex], COLORS[message.label % COLORS.length]));
             }
         }

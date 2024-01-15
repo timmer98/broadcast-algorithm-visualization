@@ -36,6 +36,7 @@ class Message {
         } else {
             this.xPos = this.endProcessor.xPos;
             this.yPos = LEVEL_HEIGHT * numberOfLevels;
+            this.endProcessor.receiveMessage(this);
             this.visible = false;
         }
 
