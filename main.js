@@ -1,6 +1,6 @@
 var PROCESSOR_COUNT = 16;
 var PIPELINED = true;
-var MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 800;
+var MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 1500;
 
 
 const numberOfProcessorsElement = document.querySelector(".number_of_processors");
