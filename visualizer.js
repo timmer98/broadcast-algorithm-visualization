@@ -9,6 +9,8 @@ const LEVEL_HEIGHT = PROCESSOR_RECT_HEIGHT;
 var PROCESSOR_RECT_Y_POS;
 var MESSAGE_Y_POS;
 
+var numberOfLevels;
+
 var timestamp = 0;
 var lastTime = Date.now();
 var controller;
@@ -37,9 +39,9 @@ function animateMessage(context) {
 }
 
 function calculateTree() {    
-    let levels = Math.ceil(Math.log2(PROCESSOR_COUNT));
+    numberOfLevels = Math.ceil(Math.log2(PROCESSOR_COUNT));
 
-    PROCESSOR_RECT_Y_POS = INITIAL_PROCESSOR_Y_POS + levels * LEVEL_HEIGHT;
+    PROCESSOR_RECT_Y_POS = INITIAL_PROCESSOR_Y_POS + numberOfLevels * LEVEL_HEIGHT;
     MESSAGE_Y_POS = PROCESSOR_RECT_Y_POS + PROCESSOR_RECT_HEIGHT + 20;
 }
 

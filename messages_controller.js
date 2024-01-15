@@ -5,7 +5,6 @@ class MessagesController {
         this.processors = processors;
         this.messageCopies = [];
         this.messageCopies.push(new Message(0, processors[0], processors[0], COLORS[0]));
-
     }
 
     newMessageIteration() {
