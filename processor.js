@@ -37,6 +37,11 @@ class Processor {
                 context.fillStyle = COLORS[message.label % COLORS.length];
                 context.fillRect(this.xPos, yPos, PROCESSOR_RECT_WIDTH, PIPELINED_MESSAGE_HEIGHT);
             }
+        } else if (this.messages.length > 0) {
+            let message = this.messages[0]; // Newest message is pushed in on position 0
+
+            context.fillStyle = COLORS[message.label % COLORS.length];
+            context.fillRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
         }
 
         // Write processor id
