@@ -83,12 +83,29 @@ function drawTree(context) {
     }
 }
 
+function clearCanvas(ctx) {
+    // Store the current transformation matrix
+    ctx.save();
+
+    // Use the identity matrix while clearing the canvas
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    // Restore the transform
+    ctx.restore();
+}
+
 function draw() {
     const canvas = document.getElementById("tutorial");
     if (canvas.getContext) {       
         const ctx = canvas.getContext("2d");
+
+        // Set user's chosen scale factor
+        ctx.scale(customScaleFactor, customScaleFactor);
+        customScaleFactor = 1; // Reset scale factor
+
         ctx.font = "20px Arial";
-        ctx.clearRect(0, 0, 1250, 500); // clear canvas
+        clearCanvas(ctx);
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
