@@ -25,6 +25,11 @@ class Processor {
         if (this.id == 0) {
             context.fillStyle = "grey";
             context.fillRect(this.xPos, PROCESSOR_RECT_Y_POS, PROCESSOR_RECT_WIDTH, PROCESSOR_RECT_HEIGHT);
+            
+            // Write processor id
+            context.fillStyle = "black";
+            context.fillText(this.id, this.xPos + (PROCESSOR_RECT_WIDTH / 2), PROCESSOR_RECT_Y_POS + (PROCESSOR_RECT_HEIGHT / 2));
+
             return;
         }
         
