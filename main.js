@@ -2,6 +2,7 @@ var PROCESSOR_COUNT = 16;
 var PIPELINED = true;
 var MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 1500;
 
+const ANIMATION_SPEED_MAX_VALUE = 5000;
 
 const numberOfProcessorsElement = document.querySelector(".number_of_processors");
 const pipelinedCheckbox = document.getElementById("pipelined");
@@ -23,7 +24,7 @@ pipelinedCheckbox.addEventListener("change", (event) => {
 });
 
 animationTimeSlider.addEventListener("change", (event) => {
-    MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = event.target.value;
+    MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 5000 - parseInt(event.target.value, 10);
     restart();
 });
 
