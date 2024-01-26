@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-
     <header>
       <label>
         p = 
@@ -30,8 +29,10 @@
 			<input type="radio" name="animationControl" v-model="run" value="pause" id="pause"><label for="pause">⏸</label>
 		</div>
 
-    <canvas id="tutorial" width="1200" height="800"></canvas>
+    <canvas id="canvas" width="100%" height="100%"></canvas>
     
+    <small>Visualization of the (pipelined) binomial tree broadcast algorithm - Created by Lukas Timmer</small>
+
     <script src="processor.js"></script>
     <script src="messages_controller.js"></script>
     <script src="message.js"></script>

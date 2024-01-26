@@ -96,13 +96,16 @@ function clearCanvas(ctx) {
 }
 
 function draw() {
-    const canvas = document.getElementById("tutorial");
+    const canvas = document.getElementById("canvas");
     if (canvas.getContext) {       
         const ctx = canvas.getContext("2d");
+        
+        // to scale to window
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight - 136;
 
         // Set user's chosen scale factor
         ctx.scale(customScaleFactor, customScaleFactor);
-        customScaleFactor = 1; // Reset scale factor
 
         ctx.font = "20px Arial";
         clearCanvas(ctx);
