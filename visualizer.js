@@ -14,23 +14,9 @@ var numberOfLevels;
 var timestamp = 0;
 var lastTime = Date.now();
 var treeStrategy;
-var processors = [];
 var intervalCallbackId;
 var animationFrameRequestId;
 var RUNNING;
-
-function buildProcessors() {
-    for (let i = 0; i < PROCESSOR_COUNT; i++) {
-        var rectX = i * (PROCESSOR_RECT_WIDTH + 10) + 10;
-        processors.push(new Processor(i, rectX));
-    }
-}
-
-function drawPEs(processors, context) {
-    for (let i = 0; i < processors.length; i++) {
-        processors[i].draw(context);
-    }
-}
 
 function animateMessage(context) {
     for (let i = 0; i < treeStrategy.messageCopies.length; i++) {
@@ -43,14 +29,6 @@ function calculateTree() {
 
     PROCESSOR_RECT_Y_POS = INITIAL_PROCESSOR_Y_POS + numberOfLevels * LEVEL_HEIGHT;
     MESSAGE_Y_POS = PROCESSOR_RECT_Y_POS + PROCESSOR_RECT_HEIGHT + 20;
-}
-
-function drawTree(context) {
-    if (!SHOW_BINARY_TREE) {
-        drawBinomialTree(context);
-    } else {
-
-    }
 }
 
 function clearCanvas(ctx) {
@@ -82,9 +60,7 @@ function draw() {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        this.processors = [];
         treeStrategy.drawTree(ctx);
-        drawPEs(processors, ctx);
         animateMessage(ctx);
 
         timestamp = Date.now() - lastTime;
@@ -123,17 +99,14 @@ function startAnimation() {
 }
 
 function init() {
-    processors = [];
-
     calculateTree();
-    buildProcessors();
 
     startTime = Date.now();
 
     if (!SHOW_BINARY_TREE) {
-        treeStrategy = new BinomialTreeStrategy(processors);
+        treeStrategy = new BinomialTreeStrategy();
     } else {
-        treeStrategy = new BinaryTreeStrategy(processors);
+        treeStrategy = new BinaryTreeStrategy();
     }
 
     startAnimation();

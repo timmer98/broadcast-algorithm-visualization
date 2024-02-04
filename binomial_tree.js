@@ -3,11 +3,20 @@ class BinomialTreeStrategy {
     constructor(processors) {
         this.initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT) - 1)); 
         this.currentStep = this.initialStep;
-        this.processors = processors;
+        this.processors = [];
         this.messageCopies = [];
-        this.messageCopies.push(new Message(0, processors[0], processors[0], COLORS[0]));
+        this.buildProcessors();
+
+        this.messageCopies.push(new Message(0, this.processors[0], this.processors[0], COLORS[0]));
     }
 
+    buildProcessors() {
+        for (let i = 0; i < PROCESSOR_COUNT; i++) {
+            var rectX = i * (PROCESSOR_RECT_WIDTH + 10) + 10;
+            this.processors.push(new Processor(i, rectX));
+        }
+    }
+    
     newMessageIteration() {
         let lastMessage = this.messageCopies[0];
         this.messageCopies = [];
@@ -31,7 +40,7 @@ class BinomialTreeStrategy {
         for (let i = 0; i < messagesCount; i++) {
             let message = this.messageCopies[i];
             let receiverProcessorIndex = message.endProcessor.id + this.currentStep;
-            if (receiverProcessorIndex < processors.length) {
+            if (receiverProcessorIndex < this.processors.length) {
                 this.messageCopies.push(new Message(message.label, message.endProcessor, this.processors[receiverProcessorIndex], COLORS[message.label % COLORS.length]));
             }
         }
@@ -41,7 +50,15 @@ class BinomialTreeStrategy {
         return false;
     }
 
+    drawProcessors(context) {
+        for (let i = 0; i < this.processors.length; i++) {
+            this.processors[i].draw(context);
+        }
+    }
+
     drawTree(context) {
+        this.drawProcessors(context);
+
         let initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT)));
         
         let nodeY = LEVEL_HEIGHT - PIPELINED_MESSAGE_HEIGHT + 1;

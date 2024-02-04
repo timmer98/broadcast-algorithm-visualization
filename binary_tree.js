@@ -1,12 +1,11 @@
 class BinaryTreeStrategy {
-    constructor(processors) {
+    constructor() {
         this.initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT) - 1)); 
         this.currentStep = this.initialStep;
-        // this.processors = processors;
         this.processors = [];
         this.edges = [];
         this.messageCopies = [];
-        this.messageCopies.push(new Message(0, processors[0], processors[0], COLORS[0]));
+        // this.messageCopies.push(new Message(0, this.processors[0], this.processors[0], COLORS[0]));
     }
 
     newMessageIteration() {
