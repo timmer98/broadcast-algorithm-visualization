@@ -15,6 +15,10 @@
         <input type="checkbox" id="pipelined" name="pipelined"/>
       Pipelined 
       </label>
+
+      <input type="radio" name="broadcastType" value="binomialTree" checked id="binomialTree"><label for="binomialTree">Binomial Tree</label>
+      <input type="radio" name="broadcastType" value="binaryTree" id="binaryTree"><label for="binaryTree">Binary Tree</label>
+  
       <label>
         Animation Speed = 
         <input type="range" id="animationTime" name="animationTime" min="100" max="5000" value="200" step="10" />
@@ -33,8 +37,10 @@
     
     <small>Visualization of the (pipelined) binomial tree broadcast algorithm - Created by Lukas Timmer</small>
 
+    <script src="edge.js"></script>
     <script src="processor.js"></script>
-    <script src="messages_controller.js"></script>
+    <script src="binomial_tree.js"></script>
+    <script src="binary_tree.js"></script>
     <script src="message.js"></script>
     <script src="visualizer.js"></script>
     <script src="main.js"></script>

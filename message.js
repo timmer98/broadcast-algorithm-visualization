@@ -11,7 +11,7 @@ class Message {
         this.passedTime = 0;
 
         let startLevel = Math.ceil(Math.log2(endProcessor.id - startProcessor.id));
-        this.yPos = LEVEL_HEIGHT * (numberOfLevels - startLevel) - LEVEL_HEIGHT / 2;
+        this.yPos = LEVEL_HEIGHT * (numberOfLevels - startLevel) - LEVEL_HEIGHT * 0.75;
         this.positionDifferenceY = LEVEL_HEIGHT;
 
         if (startProcessor === endProcessor) {

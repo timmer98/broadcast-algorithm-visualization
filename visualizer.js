@@ -1,9 +1,9 @@
-const PROCESSOR_RECT_WIDTH = 60;
-const PROCESSOR_RECT_HEIGHT = 60;
-const INITIAL_PROCESSOR_Y_POS = 50;
+const PROCESSOR_RECT_WIDTH = 30;
+const PROCESSOR_RECT_HEIGHT = 30;
+const INITIAL_PROCESSOR_Y_POS = 25;
 const ROOT_NODE_X = 10 + PROCESSOR_RECT_WIDTH / 2;
 const PIPELINED_MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 5;
-const MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT / 2;
+const MESSAGE_HEIGHT = PROCESSOR_RECT_HEIGHT;
 const NODE_RADIUS = 5;
 const LEVEL_HEIGHT = PROCESSOR_RECT_HEIGHT;
 var PROCESSOR_RECT_Y_POS;
@@ -13,7 +13,7 @@ var numberOfLevels;
 
 var timestamp = 0;
 var lastTime = Date.now();
-var controller;
+var treeStrategy;
 var processors = [];
 var intervalCallbackId;
 var animationFrameRequestId;
@@ -21,7 +21,7 @@ var RUNNING;
 
 function buildProcessors() {
     for (let i = 0; i < PROCESSOR_COUNT; i++) {
-        var rectX = i * 70 + 10;
+        var rectX = i * (PROCESSOR_RECT_WIDTH + 10) + 10;
         processors.push(new Processor(i, rectX));
     }
 }
@@ -33,8 +33,8 @@ function drawPEs(processors, context) {
 }
 
 function animateMessage(context) {
-    for (let i = 0; i < controller.messageCopies.length; i++) {
-        controller.messageCopies[i].draw(context, timestamp);
+    for (let i = 0; i < treeStrategy.messageCopies.length; i++) {
+        treeStrategy.messageCopies[i].draw(context, timestamp);
     }
 }
 
@@ -46,40 +46,10 @@ function calculateTree() {
 }
 
 function drawTree(context) {
-    let initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT)));
-    
-    let nodeY = LEVEL_HEIGHT - PIPELINED_MESSAGE_HEIGHT + 1;
+    if (!SHOW_BINARY_TREE) {
+        drawBinomialTree(context);
+    } else {
 
-    // Root node
-    context.fillStyle = "grey";
-
-    // Loop for levels
-    for (let distance = initialStep; distance > 1; distance = distance / 2) {
-
-        // Loop for nodes
-        for (let i = 0; i < PROCESSOR_COUNT; i += distance) {
-            let nodeX = ROOT_NODE_X + i * (PROCESSOR_RECT_WIDTH + 10);
-
-            // Edges of tree
-            context.beginPath();
-            context.moveTo(nodeX, nodeY);
-            context.lineTo(nodeX, nodeY + LEVEL_HEIGHT);
-            context.stroke();
-
-            if (i + distance / 2 < PROCESSOR_COUNT) {
-                context.beginPath();
-                context.moveTo(nodeX, nodeY);
-                context.lineTo(nodeX + distance / 2 * (PROCESSOR_RECT_WIDTH + 10), nodeY + LEVEL_HEIGHT)
-                context.stroke();    
-            }
-
-            // Circles of the tree nodes
-            context.beginPath();
-            context.arc(nodeX, nodeY, NODE_RADIUS, 0, 2 * Math.PI);
-            context.fill();
-        }
-
-        nodeY += LEVEL_HEIGHT;
     }
 }
 
@@ -112,7 +82,8 @@ function draw() {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        drawTree(ctx);
+        this.processors = [];
+        treeStrategy.drawTree(ctx);
         drawPEs(processors, ctx);
         animateMessage(ctx);
 
@@ -140,9 +111,9 @@ function startAnimation() {
     }
     
     intervalCallbackId = setInterval(() => {
-        let iterationResult = controller.iterate();
+        let iterationResult = treeStrategy.iterate();
         if (iterationResult) {
-            controller.newMessageIteration();
+            treeStrategy.newMessageIteration();
         }
     }, MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS);
 
@@ -154,11 +125,16 @@ function startAnimation() {
 function init() {
     processors = [];
 
-    buildProcessors();
     calculateTree();
+    buildProcessors();
 
     startTime = Date.now();
 
-    controller = new MessagesController(processors);
+    if (!SHOW_BINARY_TREE) {
+        treeStrategy = new BinomialTreeStrategy(processors);
+    } else {
+        treeStrategy = new BinaryTreeStrategy(processors);
+    }
+
     startAnimation();
 }

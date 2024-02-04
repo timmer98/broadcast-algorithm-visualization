@@ -1,7 +1,8 @@
-var PROCESSOR_COUNT = 16;
+var PROCESSOR_COUNT = 8;
 var PIPELINED = true;
 var MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS = 1500;
 var customScaleFactor = 1;
+var SHOW_BINARY_TREE = true;
 
 const ANIMATION_SPEED_MAX_VALUE = 5000;
 const ZOOM_STEP = 0.05;
@@ -13,8 +14,11 @@ const playButton =  document.getElementById("play");
 const pauseButton = document.getElementById("pause");
 const zoomInButton = document.getElementById("zoomIn");
 const zoomOutButton = document.getElementById("zoomOut")
+const binomialTreeRadioButton = document.getElementById("binomialTree");
+const binaryTreeRadioButton = document.getElementById("binaryTree");
 
 pipelinedCheckbox.checked = PIPELINED;
+binomialTreeRadioButton.checked = !SHOW_BINARY_TREE;
 animationTimeSlider.value = MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS;
 
 zoomInButton.addEventListener("click", (event) => {
@@ -47,5 +51,16 @@ playButton.addEventListener("click", (event) => {
 pauseButton.addEventListener("click", (event) => {
     pauseAnimation();
 });
+
+binomialTreeRadioButton.addEventListener("change", (event) => {
+    SHOW_BINARY_TREE = !event.target.checked;
+    restart();
+});
+
+binaryTreeRadioButton.addEventListener("change", (event) => {
+    SHOW_BINARY_TREE = event.target.checked;
+    restart();
+});
+
 
 init();
