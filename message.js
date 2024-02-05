@@ -1,5 +1,5 @@
 class Message {
-    constructor(label, startProcessor, endProcessor, color) {
+    constructor(label, startProcessor, endProcessor, color, yPos = null) {
         this.label = label;
         this.startProcessor = startProcessor;
         this.endProcessor = endProcessor;
@@ -9,9 +9,13 @@ class Message {
         this.visible = false;
         this.scaleFactor = 1;
         this.passedTime = 0;
+        this.yPos = yPos;
 
-        let startLevel = Math.ceil(Math.log2(endProcessor.id - startProcessor.id));
-        this.yPos = LEVEL_HEIGHT * (numberOfLevels - startLevel) - LEVEL_HEIGHT * 0.75;
+        if (yPos == null) {
+            let startLevel = Math.ceil(Math.log2(endProcessor.id - startProcessor.id));
+            this.yPos = LEVEL_HEIGHT * (numberOfLevels - startLevel) - LEVEL_HEIGHT * 0.75;
+        }
+
         this.positionDifferenceY = LEVEL_HEIGHT;
 
         if (startProcessor === endProcessor) {
@@ -26,7 +30,19 @@ class Message {
             return;
         }
 
-        if (this.xPos < this.endProcessor.xPos) {
+        let animationNotDone = false;
+
+        if (this.endProcessor.xPos > this.startProcessor.xPos) {
+            if (this.xPos < this.endProcessor.xPos) {
+                animationNotDone = true;
+            }
+        } else {
+            if (this.xPos > this.endProcessor.xPos) {
+                animationNotDone = true;
+            }
+        }
+
+        if (animationNotDone) {
             let stepX = timestep / MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS * this.positionDifferenceX;
             let stepY = timestep / MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS * this.positionDifferenceY;
 
@@ -36,7 +52,6 @@ class Message {
         } else {
             this.xPos = this.endProcessor.xPos;
             this.yPos = LEVEL_HEIGHT * numberOfLevels;
-            this.endProcessor.receiveMessage(this);
             this.visible = false;
         }
 

@@ -4,12 +4,17 @@ class Processor {
     constructor(id, xPos, yPos = PROCESSOR_RECT_Y_POS) {
         this.id = id;
         this.xPos = xPos;
-        this.lastMessageSentToId = 0;
+        this.sentMessages = 0;
         this.messages = [];
         this.yPos = yPos;
     }
 
     receiveMessage(message) {
+        // TODO: WIP Delete this
+        if (this.messages.length == 1) {
+            return;
+        }
+
         if (!this.messages.includes(message)) {
             this.messages.unshift(message);
         }

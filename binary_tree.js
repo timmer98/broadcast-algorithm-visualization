@@ -1,19 +1,8 @@
 class BinaryTreeStrategy {
     constructor() {
-        this.initialStep = Math.pow(2, Math.ceil(Math.log2(PROCESSOR_COUNT) - 1)); 
-        this.currentStep = this.initialStep;
         this.processors = [];
         this.edges = [];
         this.messageCopies = [];
-        // this.messageCopies.push(new Message(0, this.processors[0], this.processors[0], COLORS[0]));
-    }
-
-    newMessageIteration() {
-        let lastMessage = this.messageCopies[0];
-        this.messageCopies = [];
-        let newId = lastMessage.label + 1;
-        this.messageCopies.push(new Message(newId, this.processors[0], this.processors[0], COLORS[newId % COLORS.length]));
-        this.currentStep = this.initialStep;
     }
 
     buildTree(context) {
@@ -23,7 +12,6 @@ class BinaryTreeStrategy {
         let levelDrawingStart = middle;
         let nodesDistance = middle;
         let nodeCount = 0;
-        let lastLevellastNodeIndex;
 
         context.fillStyle = "grey";
 
@@ -42,8 +30,7 @@ class BinaryTreeStrategy {
 
                 // Calculate index of parent node
                 if (nodeCount > 0 && nodeCount <= PROCESSOR_COUNT) {
-                    // Subtracting 0.1 might be a bit hacky but that leads to floor(2 / 2) evaluating to 0 which is the correct parent
-                    let parentIndex = Math.floor((nodeCount - 0.1) / 2);
+                    let parentIndex = Math.floor((nodeCount - 1) / 2);
                     let parent = this.processors[parentIndex];
 
                     let edgeStartX = parent.xPos + PROCESSOR_RECT_WIDTH / 2;
@@ -61,17 +48,56 @@ class BinaryTreeStrategy {
             levelDrawingStart = levelDrawingStart - nodesDistance / 4;
             nodesDistance = nodesDistance / 2;
             yPos += LEVEL_HEIGHT + LEVEL_HEIGHT;
-            lastLevellastNodeIndex = nodeCount;
         }
     }
 
-    iterate() {
 
+    newMessageIteration() {
+        // let lastMessage = this.messageCopies[0];
+        // // this.messageCopies = [];
+        // let newId = lastMessage.label + 1;
+        // this.messageCopies.push(new Message(newId, this.processors[0], this.processors[0], COLORS[newId % COLORS.length]));
+    }
+
+    iterate() {
+        this.messageCopies.forEach((m) => {
+            m.endProcessor.receiveMessage(m);
+        });
+
+        for (let i = 0; i < PROCESSOR_COUNT; i++) {
+            let currentProcessor = this.processors[i];
+
+            if (currentProcessor.messages.length != 0) {
+                let message = currentProcessor.messages[0]; // Position 0 always has the newest received message
+                let receiverProcessorIndex = i * 2 + 1;
+
+                if (currentProcessor.sentMessages % 2 == 1) {
+                    receiverProcessorIndex ++; // Add 1 for right child, otherwise left child
+                }
+
+                if (receiverProcessorIndex < PROCESSOR_COUNT) {
+                    if (currentProcessor.sentMessages != 2) {
+                        let receiveProcessor = this.processors[receiverProcessorIndex];
+                        this.messageCopies.push(new Message(message.label, currentProcessor, receiveProcessor, message.color, currentProcessor.yPos));
+                        currentProcessor.sentMessages++;
+                    }
+                }
+            }
+        }
+
+        if (this.processors[0].sentMessages == 2) {
+            return true;
+        }
+
+        return false;
     }
 
     drawTree(context) {
         if (this.processors.length == 0) {
             this.buildTree(context);
+            let newMessage = new Message(0, this.processors[0], this.processors[0], COLORS[0], this.processors[0].yPos);
+            this.processors[0].receiveMessage(newMessage);
+            this.messageCopies.push(newMessage);
         }
 
         this.processors.forEach(processor => {
