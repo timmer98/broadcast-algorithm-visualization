@@ -10,11 +10,6 @@ class Processor {
     }
 
     receiveMessage(message) {
-        // TODO: WIP Delete this
-        if (this.messages.length == 1) {
-            return;
-        }
-
         if (!this.messages.includes(message)) {
             this.messages.unshift(message);
         }

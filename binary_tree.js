@@ -3,6 +3,7 @@ class BinaryTreeStrategy {
         this.processors = [];
         this.edges = [];
         this.messageCopies = [];
+        this.currentMessageId = 0;
     }
 
     buildTree(context) {
@@ -53,10 +54,10 @@ class BinaryTreeStrategy {
 
 
     newMessageIteration() {
-        // let lastMessage = this.messageCopies[0];
-        // // this.messageCopies = [];
-        // let newId = lastMessage.label + 1;
-        // this.messageCopies.push(new Message(newId, this.processors[0], this.processors[0], COLORS[newId % COLORS.length]));
+        this.currentMessageId++;
+        let newMessage = new Message(this.currentMessageId, this.processors[0], this.processors[0], COLORS[this.currentMessageId % COLORS.length]);
+        this.messageCopies.push(newMessage);
+        this.processors[0].receiveMessage(newMessage);
     }
 
     iterate() {
@@ -76,16 +77,16 @@ class BinaryTreeStrategy {
                 }
 
                 if (receiverProcessorIndex < PROCESSOR_COUNT) {
-                    if (currentProcessor.sentMessages != 2) {
-                        let receiveProcessor = this.processors[receiverProcessorIndex];
-                        this.messageCopies.push(new Message(message.label, currentProcessor, receiveProcessor, message.color, currentProcessor.yPos));
-                        currentProcessor.sentMessages++;
-                    }
+                    let receiveProcessor = this.processors[receiverProcessorIndex];
+                    this.messageCopies.push(new Message(message.label, currentProcessor, receiveProcessor, message.color, currentProcessor.yPos + LEVEL_HEIGHT / 2));
                 }
+
+                currentProcessor.sentMessages++;
             }
         }
 
-        if (this.processors[0].sentMessages == 2) {
+        // If processor 0 has sent the message to it's left and right child, we can send another message
+        if (this.processors[0].sentMessages % 2 == 0) {
             return true;
         }
 
@@ -95,7 +96,7 @@ class BinaryTreeStrategy {
     drawTree(context) {
         if (this.processors.length == 0) {
             this.buildTree(context);
-            let newMessage = new Message(0, this.processors[0], this.processors[0], COLORS[0], this.processors[0].yPos);
+            let newMessage = new Message(0, this.processors[0], this.processors[0], COLORS[0], this.processors[0].yPos + LEVEL_HEIGHT / 2);
             this.processors[0].receiveMessage(newMessage);
             this.messageCopies.push(newMessage);
         }
