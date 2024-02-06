@@ -19,7 +19,9 @@ const binaryTreeRadioButton = document.getElementById("binaryTree");
 
 pipelinedCheckbox.checked = PIPELINED;
 binomialTreeRadioButton.checked = !SHOW_BINARY_TREE;
-animationTimeSlider.value = MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS;
+binaryTreeRadioButton.checked = SHOW_BINARY_TREE;
+animationTimeSlider.value = 5000 - MESSAGE_ANIMATION_SPEED_IN_MILLISECONDS;
+numberOfProcessorsElement.value = PROCESSOR_COUNT;
 
 zoomInButton.addEventListener("click", (event) => {
     customScaleFactor += ZOOM_STEP;

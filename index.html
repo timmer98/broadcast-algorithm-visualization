@@ -2,14 +2,14 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <title>Binomial Tree Broadcast</title>
+    <title>Tree Broadcast Visualization</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <header>
       <label>
         p = 
-        <input type="number" step="1" style="width: 8ch;" min="4" class="number_of_processors" name="number_of_processors">
+        <input type="number" step="1" style="width: 8ch;" min="4" max="32" class="number_of_processors" name="number_of_processors">
       </label>
       <label>
         <input type="checkbox" id="pipelined" name="pipelined"/>
@@ -21,7 +21,7 @@
   
       <label>
         Animation Speed = 
-        <input type="range" id="animationTime" name="animationTime" min="100" max="5000" value="200" step="10" />
+        <input type="range" id="animationTime" name="animationTime" min="600" max="4500" value="600" step="10" />
       </label>
       <label>Zoom: </label>
       <button type="button" id="zoomIn">+</button> 
@@ -35,7 +35,7 @@
 
     <canvas id="canvas" width="100%" height="100%"></canvas>
     
-    <small>Visualization of the (pipelined) binomial tree broadcast algorithm - Created by Lukas Timmer</small>
+    <small>Visualization of the (pipelined) binomial tree and binary tree broadcast algorithm - Created by Lukas Timmer</small>
 
     <script src="edge.js"></script>
     <script src="processor.js"></script>
